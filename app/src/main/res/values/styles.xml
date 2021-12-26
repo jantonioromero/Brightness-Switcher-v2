@@ -9,4 +9,13 @@
         <item name="android:background">?android:attr/colorBackground</item>
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
+
+    <style name="ConfigurationDoneButton">
+        <item name="android:background">@drawable/button_addlevel_background</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">6dp</item>
+    </style>
+
 </resources>
