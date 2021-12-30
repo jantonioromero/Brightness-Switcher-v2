@@ -25,6 +25,7 @@ public class BrightnessLevelRepository
 	private static Vector<Double> brightnessLevels;
 
 	public void resetBrightnessLevels(Context context) {
+		brightnessLevels = null;
 		context.deleteFile(BRIGHTNESS_LEVELS_FILENAME);
 	}
 

@@ -24,6 +24,7 @@ class BrightnessLevelRepositoryTest {
     fun setUp() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
         repository = BrightnessLevelRepository()
+        repository.resetBrightnessLevels(appContext)
     }
 
     @Test
@@ -38,5 +39,14 @@ class BrightnessLevelRepositoryTest {
         defaultLevels.add(0.5)
         defaultLevels.add(0.01)
         return defaultLevels
+    }
+
+    @Test
+    fun saveBrightnessLevels() {
+        val expectedLevels = defaultLevels()
+        expectedLevels.add(0.95)
+        repository.saveBrightnessLevels(appContext, expectedLevels)
+        val levels = repository.getBrightnessLevels(appContext)
+        Assert.assertEquals(expectedLevels, levels)
     }
 }
