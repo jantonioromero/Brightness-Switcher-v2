@@ -27,6 +27,5 @@ class BrightnessLevelRepository(
         const val MAX_BRIGHTNESS_LEVELS = 10
         const val BRIGHTNESS_LEVEL_DEFAULT = 0.5
         const val BRIGHTNESS_LEVEL_AUTO = -1.0
-        private const val BRIGHTNESS_LEVELS_FILENAME = "brightnesslevels.dat"
     }
 }
