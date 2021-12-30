@@ -4,14 +4,8 @@ import android.content.Context
 import java.util.Vector
 
 class BrightnessLevelRepository(
-    private val context: Context
+    private val dataSource: BrightnessLevelDataSource
     ) {
-
-    val dataSource: BrightnessLevelDataSource = BrightnessLevelFileDataSource(context)
-
-    fun resetBrightnessLevels() {
-        context.deleteFile(BRIGHTNESS_LEVELS_FILENAME)
-    }
 
     fun getBrightnessLevels(): Vector<Double> {
         return dataSource.brightnessLevels() ?: defaultLevels()

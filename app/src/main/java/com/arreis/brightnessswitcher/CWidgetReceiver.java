@@ -12,6 +12,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
+import com.arreis.brightnessswitcher.datamodel.BrightnessLevelFileDataSource;
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
 
 import java.util.Vector;
@@ -30,7 +31,7 @@ public class CWidgetReceiver extends BroadcastReceiver
 	public void onReceive(Context context, Intent intent)
 	{
 		if (brightnessLevelRepository == null) {
-			brightnessLevelRepository = new BrightnessLevelRepository(context);
+			brightnessLevelRepository = new BrightnessLevelRepository(new BrightnessLevelFileDataSource(context));
 		}
 
 		if (mBrightnessLevels == null)

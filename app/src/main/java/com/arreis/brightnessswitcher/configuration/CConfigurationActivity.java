@@ -34,6 +34,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.arreis.brightnessswitcher.CWidgetProvider;
 import com.arreis.brightnessswitcher.CWidgetReceiver;
 import com.arreis.brightnessswitcher.R;
+import com.arreis.brightnessswitcher.datamodel.BrightnessLevelFileDataSource;
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
 
 import java.util.Vector;
@@ -81,7 +82,7 @@ public class CConfigurationActivity extends FragmentActivity
 		setContentView(R.layout.activity_configuration);
 
 		if (brightnessLevelRepository == null) {
-			brightnessLevelRepository = new BrightnessLevelRepository(getApplicationContext());
+			brightnessLevelRepository = new BrightnessLevelRepository(new BrightnessLevelFileDataSource(getApplicationContext()));
 		}
 		mBrightnessLevels = brightnessLevelRepository.getBrightnessLevels();
 		

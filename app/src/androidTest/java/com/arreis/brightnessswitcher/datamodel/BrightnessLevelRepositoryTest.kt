@@ -20,8 +20,9 @@ class BrightnessLevelRepositoryTest {
     @Throws(Exception::class)
     fun setUp() {
         appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        repository = BrightnessLevelRepository(appContext)
-        repository.resetBrightnessLevels()
+        val dataSource = BrightnessLevelFileDataSource(appContext)
+        dataSource.resetBrightnessLevels()
+        repository = BrightnessLevelRepository(dataSource)
     }
 
     @Test

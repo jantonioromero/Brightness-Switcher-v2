@@ -13,9 +13,13 @@ import java.util.Vector
 
 class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLevelDataSource {
 
+    override fun resetBrightnessLevels() {
+        context.deleteFile(BRIGHTNESS_LEVELS_FILENAME)
+    }
+
     override fun brightnessLevels(): Vector<Double>? {
         try {
-            val fis = context.openFileInput(BrightnessLevelFileDataSource.BRIGHTNESS_LEVELS_FILENAME)
+            val fis = context.openFileInput(BRIGHTNESS_LEVELS_FILENAME)
             val buffer = StringBuilder()
             var Read: String?
             val reader = BufferedReader(InputStreamReader(fis))
@@ -46,7 +50,7 @@ class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLe
             for (i in levels.indices) {
                 values.put(levels[i])
             }
-            val fos = context.openFileOutput(BrightnessLevelFileDataSource.BRIGHTNESS_LEVELS_FILENAME, Context.MODE_PRIVATE)
+            val fos = context.openFileOutput(BRIGHTNESS_LEVELS_FILENAME, Context.MODE_PRIVATE)
             fos.write(values.toString().toByteArray())
             fos.close()
         } catch (e: IOException) {
