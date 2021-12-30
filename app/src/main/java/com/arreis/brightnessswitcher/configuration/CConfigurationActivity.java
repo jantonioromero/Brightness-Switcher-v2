@@ -56,7 +56,7 @@ public class CConfigurationActivity extends FragmentActivity
 	private static final String DIALOG_TAG_EDIT = "DIALOG_TAG_EDIT";
 	private static final String DIALOG_TAG_MESSAGE = "DIALOG_TAG_MESSAGE";
 
-	private BrightnessLevelRepository brightnessLevelRepository = new BrightnessLevelRepository();
+	private BrightnessLevelRepository brightnessLevelRepository = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -79,8 +79,11 @@ public class CConfigurationActivity extends FragmentActivity
 		}
 		
 		setContentView(R.layout.activity_configuration);
-		
-		mBrightnessLevels = brightnessLevelRepository.getBrightnessLevels(getApplicationContext());
+
+		if (brightnessLevelRepository == null) {
+			brightnessLevelRepository = new BrightnessLevelRepository(getApplicationContext());
+		}
+		mBrightnessLevels = brightnessLevelRepository.getBrightnessLevels();
 		
 		mListView = (ListView) findViewById(R.id.listView);
 		mListView.setAdapter(new CConfigurationListAdapter());
@@ -163,7 +166,7 @@ public class CConfigurationActivity extends FragmentActivity
 	private void doDeleteSelectedLevel()
 	{
 		mBrightnessLevels.remove(mSelectedLevel);
-		brightnessLevelRepository.saveBrightnessLevels(getApplicationContext(), mBrightnessLevels);
+		brightnessLevelRepository.saveBrightnessLevels(mBrightnessLevels);
 		updateUI();
 	}
 	
@@ -177,7 +180,7 @@ public class CConfigurationActivity extends FragmentActivity
 		{
 			mBrightnessLevels.set(mSelectedLevel, Double.valueOf(_newLevel));
 		}
-		brightnessLevelRepository.saveBrightnessLevels(getApplicationContext(), mBrightnessLevels);
+		brightnessLevelRepository.saveBrightnessLevels(mBrightnessLevels);
 		updateUI();
 	}
 	

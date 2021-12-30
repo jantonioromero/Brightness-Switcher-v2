@@ -24,14 +24,18 @@ public class CWidgetReceiver extends BroadcastReceiver
 	private static final String PREFERENCES_BRIGHTNESS_LEVEL_CURRENT = "PREFERENCES_BRIGHTNESS_LEVEL_CURRENT";
 	public static final String PREFERENCES_SHOW_WIDGET_TITLE = "PREFERENCES_SHOW_WIDGET_TITLE";
 
-	private BrightnessLevelRepository brightnessLevelRepository = new BrightnessLevelRepository();
+	private BrightnessLevelRepository brightnessLevelRepository = null;
 	
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
+		if (brightnessLevelRepository == null) {
+			brightnessLevelRepository = new BrightnessLevelRepository(context);
+		}
+
 		if (mBrightnessLevels == null)
 		{
-			mBrightnessLevels = brightnessLevelRepository.getBrightnessLevels(context);
+			mBrightnessLevels = brightnessLevelRepository.getBrightnessLevels();
 		}
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
