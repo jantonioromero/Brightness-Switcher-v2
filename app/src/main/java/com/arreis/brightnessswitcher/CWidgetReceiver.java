@@ -12,7 +12,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.arreis.brightnessswitcher.datamodel.CBrightnessFileManager;
+import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
 
 import java.util.Vector;
 
@@ -23,13 +23,15 @@ public class CWidgetReceiver extends BroadcastReceiver
 	
 	private static final String PREFERENCES_BRIGHTNESS_LEVEL_CURRENT = "PREFERENCES_BRIGHTNESS_LEVEL_CURRENT";
 	public static final String PREFERENCES_SHOW_WIDGET_TITLE = "PREFERENCES_SHOW_WIDGET_TITLE";
+
+	private BrightnessLevelRepository brightnessLevelRepository = new BrightnessLevelRepository();
 	
 	@Override
 	public void onReceive(Context context, Intent intent)
 	{
 		if (mBrightnessLevels == null)
 		{
-			mBrightnessLevels = CBrightnessFileManager.getBrightnessLevels(context);
+			mBrightnessLevels = brightnessLevelRepository.getBrightnessLevels(context);
 		}
 		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -53,7 +55,7 @@ public class CWidgetReceiver extends BroadcastReceiver
 		boolean showTitle = prefs.getBoolean(PREFERENCES_SHOW_WIDGET_TITLE, true);
 		
 		RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
-		remoteViews.setTextViewText(R.id.widget_text, level == CBrightnessFileManager.BRIGHTNESS_LEVEL_AUTO ? context.getString(R.string.auto) : String.format(context.getString(R.string.percentLevelFormat), Math.round(100 * level)));
+		remoteViews.setTextViewText(R.id.widget_text, level == BrightnessLevelRepository.BRIGHTNESS_LEVEL_AUTO ? context.getString(R.string.auto) : String.format(context.getString(R.string.percentLevelFormat), Math.round(100 * level)));
 		remoteViews.setViewVisibility(R.id.widget_title, showTitle ? View.VISIBLE : View.GONE);
 		updateWidgetTextSize(context, remoteViews, showTitle);
 		
@@ -73,7 +75,7 @@ public class CWidgetReceiver extends BroadcastReceiver
 	
 	private void setBrightnessLevel(Context _context, double _level)
 	{
-		if (_level == CBrightnessFileManager.BRIGHTNESS_LEVEL_AUTO)
+		if (_level == BrightnessLevelRepository.BRIGHTNESS_LEVEL_AUTO)
 		{
 			Settings.System.putInt(_context.getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC);
 		}

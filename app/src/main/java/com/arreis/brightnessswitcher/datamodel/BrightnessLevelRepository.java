@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Vector;
 
-public class CBrightnessFileManager
+public class BrightnessLevelRepository
 {
 	public static final int MIN_BRIGHTNESS_LEVELS = 2;
 	public static final int MAX_BRIGHTNESS_LEVELS = 10;
@@ -23,18 +23,22 @@ public class CBrightnessFileManager
 	private static final String BRIGHTNESS_LEVELS_FILENAME = "brightnesslevels.dat";
 	
 	private static Vector<Double> brightnessLevels;
-	
-	public static Vector<Double> getBrightnessLevels(Context context)
+
+	public void resetBrightnessLevels(Context context) {
+		context.deleteFile(BRIGHTNESS_LEVELS_FILENAME);
+	}
+
+	public Vector<Double> getBrightnessLevels(Context context)
 	{
 		if (brightnessLevels == null)
 		{
 			loadBrightnessLevels(context);
 		}
-		
+
 		return brightnessLevels;
 	}
 
-	private static void loadBrightnessLevels(Context context)
+	private void loadBrightnessLevels(Context context)
 	{
 		try
 		{
@@ -69,7 +73,7 @@ public class CBrightnessFileManager
 		}
 	}
 
-	public static void saveBrightnessLevels(Context context, Vector<Double> levels)
+	public void saveBrightnessLevels(Context context, Vector<Double> levels)
 	{
 		try
 		{
@@ -88,7 +92,7 @@ public class CBrightnessFileManager
 		}
 	}
 
-	private static void loadDefaultLevels()
+	private void loadDefaultLevels()
 	{
 		brightnessLevels = new Vector<>();
 		brightnessLevels.add(50.0 / 100);

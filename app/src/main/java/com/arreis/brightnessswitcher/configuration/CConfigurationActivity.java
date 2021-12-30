@@ -34,7 +34,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.arreis.brightnessswitcher.CWidgetProvider;
 import com.arreis.brightnessswitcher.CWidgetReceiver;
 import com.arreis.brightnessswitcher.R;
-import com.arreis.brightnessswitcher.datamodel.CBrightnessFileManager;
+import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
 
 import java.util.Vector;
 
@@ -55,6 +55,8 @@ public class CConfigurationActivity extends FragmentActivity
 	private static final String DIALOG_TAG_CONFIRM_DELETE = "DIALOG_TAG_CONFIRM_DELETE";
 	private static final String DIALOG_TAG_EDIT = "DIALOG_TAG_EDIT";
 	private static final String DIALOG_TAG_MESSAGE = "DIALOG_TAG_MESSAGE";
+
+	private BrightnessLevelRepository brightnessLevelRepository = new BrightnessLevelRepository();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -78,7 +80,7 @@ public class CConfigurationActivity extends FragmentActivity
 		
 		setContentView(R.layout.activity_configuration);
 		
-		mBrightnessLevels = CBrightnessFileManager.getBrightnessLevels(getApplicationContext());
+		mBrightnessLevels = brightnessLevelRepository.getBrightnessLevels(getApplicationContext());
 		
 		mListView = (ListView) findViewById(R.id.listView);
 		mListView.setAdapter(new CConfigurationListAdapter());
@@ -96,7 +98,7 @@ public class CConfigurationActivity extends FragmentActivity
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1, int position, long arg3)
 			{
-				if (mBrightnessLevels.size() > CBrightnessFileManager.MIN_BRIGHTNESS_LEVELS)
+				if (mBrightnessLevels.size() > BrightnessLevelRepository.MIN_BRIGHTNESS_LEVELS)
 				{
 					mSelectedLevel = position;
 					new CConfirmDeleteDialog().show(getSupportFragmentManager(), DIALOG_TAG_CONFIRM_DELETE);
@@ -133,7 +135,7 @@ public class CConfigurationActivity extends FragmentActivity
 			public void onClick(View arg0)
 			{
 				mSelectedLevel = NEW_LEVEL_INDEX;
-				CEditLevelDialog.newInstance(CBrightnessFileManager.BRIGHTNESS_LEVEL_DEFAULT).show(getSupportFragmentManager(), DIALOG_TAG_EDIT);
+				CEditLevelDialog.newInstance(BrightnessLevelRepository.BRIGHTNESS_LEVEL_DEFAULT).show(getSupportFragmentManager(), DIALOG_TAG_EDIT);
 			}
 		});
 		
@@ -161,7 +163,7 @@ public class CConfigurationActivity extends FragmentActivity
 	private void doDeleteSelectedLevel()
 	{
 		mBrightnessLevels.remove(mSelectedLevel);
-		CBrightnessFileManager.saveBrightnessLevels(getApplicationContext(), mBrightnessLevels);
+		brightnessLevelRepository.saveBrightnessLevels(getApplicationContext(), mBrightnessLevels);
 		updateUI();
 	}
 	
@@ -175,13 +177,13 @@ public class CConfigurationActivity extends FragmentActivity
 		{
 			mBrightnessLevels.set(mSelectedLevel, Double.valueOf(_newLevel));
 		}
-		CBrightnessFileManager.saveBrightnessLevels(getApplicationContext(), mBrightnessLevels);
+		brightnessLevelRepository.saveBrightnessLevels(getApplicationContext(), mBrightnessLevels);
 		updateUI();
 	}
 	
 	private void updateUI()
 	{
-		mAddLevelButton.setEnabled(mBrightnessLevels.size() < CBrightnessFileManager.MAX_BRIGHTNESS_LEVELS);
+		mAddLevelButton.setEnabled(mBrightnessLevels.size() < BrightnessLevelRepository.MAX_BRIGHTNESS_LEVELS);
 		((CConfigurationListAdapter) mListView.getAdapter()).notifyDataSetChanged();
 	}
 	
@@ -229,7 +231,7 @@ public class CConfigurationActivity extends FragmentActivity
 			}
 			
 			Double level = (Double) getItem(position);
-			String levelString = (level == CBrightnessFileManager.BRIGHTNESS_LEVEL_AUTO) ? getString(R.string.auto) : String.format(getString(R.string.percentLevelFormat), (int) (level * 100));
+			String levelString = (level == BrightnessLevelRepository.BRIGHTNESS_LEVEL_AUTO) ? getString(R.string.auto) : String.format(getString(R.string.percentLevelFormat), (int) (level * 100));
 			res.setText(String.format(getString(R.string.cellIndexFormat), position + 1), levelString);
 			
 			return res;
@@ -319,7 +321,7 @@ public class CConfigurationActivity extends FragmentActivity
 			
 			mLevelText = (TextView) view.findViewById(R.id.level_text);
 			
-			if (initialLevel == CBrightnessFileManager.BRIGHTNESS_LEVEL_AUTO)
+			if (initialLevel == BrightnessLevelRepository.BRIGHTNESS_LEVEL_AUTO)
 			{
 				mLevelSeekBar.setProgress(100 / 2);
 				mLevelText.setText(String.format(getString(R.string.textLevelFormat), getString(R.string.auto)));
@@ -337,7 +339,7 @@ public class CConfigurationActivity extends FragmentActivity
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
-					((CConfigurationActivity) getActivity()).doEditSelectedLevel(CBrightnessFileManager.BRIGHTNESS_LEVEL_AUTO);
+					((CConfigurationActivity) getActivity()).doEditSelectedLevel(BrightnessLevelRepository.BRIGHTNESS_LEVEL_AUTO);
 				}
 			}).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener()
 			{
