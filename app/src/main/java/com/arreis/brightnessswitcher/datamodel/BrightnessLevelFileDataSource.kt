@@ -2,13 +2,13 @@ package com.arreis.brightnessswitcher.datamodel
 
 import android.content.Context
 import com.arreis.brightnessswitcher.domain.datasource.BrightnessLevelDataSource
+import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStreamReader
-import java.util.Vector
 
 class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLevelDataSource {
 
@@ -16,7 +16,7 @@ class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLe
         context.deleteFile(BRIGHTNESS_LEVELS_FILENAME)
     }
 
-    override fun brightnessLevels(): Vector<Double>? {
+    override fun brightnessLevels(): List<BrightnessLevel>? {
         try {
             val fis = context.openFileInput(BRIGHTNESS_LEVELS_FILENAME)
             val buffer = StringBuilder()
@@ -29,9 +29,9 @@ class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLe
             }
             fis?.close()
             val entries = JSONArray(buffer.toString())
-            val brightnessLevels = Vector<Double>()
+            val brightnessLevels = mutableListOf<BrightnessLevel>()
             for (i in 0 until entries.length()) {
-                brightnessLevels.add(entries.getDouble(i))
+                brightnessLevels.add(if (entries.getDouble(i) == -1.0) BrightnessLevel.Auto() else BrightnessLevel.FixedValue(entries.getDouble(i)))
             }
             return brightnessLevels
         } catch (e: FileNotFoundException) {
@@ -43,11 +43,11 @@ class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLe
         return null
     }
 
-    override fun saveBrightnessLevels(levels: Vector<Double>) {
+    override fun saveBrightnessLevels(levels: List<BrightnessLevel>) {
         try {
             val values = JSONArray()
-            for (i in levels.indices) {
-                values.put(levels[i])
+            for (level in levels) {
+                values.put(level.value)
             }
             val fos = context.openFileOutput(BRIGHTNESS_LEVELS_FILENAME, Context.MODE_PRIVATE)
             fos.write(values.toString().toByteArray())

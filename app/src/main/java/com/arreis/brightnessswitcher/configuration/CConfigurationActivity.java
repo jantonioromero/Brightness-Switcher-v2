@@ -36,7 +36,9 @@ import com.arreis.brightnessswitcher.CWidgetReceiver;
 import com.arreis.brightnessswitcher.R;
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelFileDataSource;
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
+import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel;
 
+import java.util.List;
 import java.util.Vector;
 
 public class CConfigurationActivity extends FragmentActivity
@@ -46,7 +48,7 @@ public class CConfigurationActivity extends FragmentActivity
 	private Button mAddLevelButton;
 	private Button mConfigFinishedButton;
 	
-	private Vector<Double> mBrightnessLevels;
+	private List<BrightnessLevel> mBrightnessLevels;
 	private int mSelectedLevel;
 	
 	private int mAppWidgetId = 0;
@@ -94,7 +96,7 @@ public class CConfigurationActivity extends FragmentActivity
 			public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
 			{
 				mSelectedLevel = position;
-				CEditLevelDialog.newInstance(mBrightnessLevels.get(position)).show(getSupportFragmentManager(), DIALOG_TAG_EDIT);
+				CEditLevelDialog.newInstance(mBrightnessLevels.get(position).getValue()).show(getSupportFragmentManager(), DIALOG_TAG_EDIT);
 			}
 		});
 		mListView.setOnItemLongClickListener(new OnItemLongClickListener()
@@ -175,14 +177,22 @@ public class CConfigurationActivity extends FragmentActivity
 	{
 		if (mSelectedLevel == NEW_LEVEL_INDEX)
 		{
-			mBrightnessLevels.add(Double.valueOf(_newLevel));
+			mBrightnessLevels.add(createBrightnessLevel(_newLevel));
 		}
 		else
 		{
-			mBrightnessLevels.set(mSelectedLevel, Double.valueOf(_newLevel));
+			mBrightnessLevels.set(mSelectedLevel, createBrightnessLevel(_newLevel));
 		}
 		brightnessLevelRepository.saveBrightnessLevels(mBrightnessLevels);
 		updateUI();
+	}
+
+	private BrightnessLevel createBrightnessLevel(double value) {
+		if (value == -1) {
+			return new BrightnessLevel.Auto();
+		} else {
+			return new BrightnessLevel.FixedValue(value);
+		}
 	}
 	
 	private void updateUI()

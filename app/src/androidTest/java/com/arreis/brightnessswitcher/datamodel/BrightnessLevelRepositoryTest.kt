@@ -3,11 +3,14 @@ package com.arreis.brightnessswitcher.datamodel
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel
+import junit.framework.Assert.assertEquals
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import java.util.Vector
 
 @RunWith(AndroidJUnit4::class)
 class BrightnessLevelRepositoryTest {
@@ -29,22 +32,21 @@ class BrightnessLevelRepositoryTest {
     fun defaultBrightnessLevels() {
         val defaultLevels = defaultLevels()
         val levels = repository.getBrightnessLevels()
-        Assert.assertEquals(defaultLevels, levels)
+        assertEquals(defaultLevels, levels)
     }
 
-    private fun defaultLevels(): Vector<Double> {
-        val defaultLevels = Vector<Double>()
-        defaultLevels.add(0.5)
-        defaultLevels.add(0.01)
-        return defaultLevels
+    private fun defaultLevels(): List<BrightnessLevel> {
+        return listOf(
+            BrightnessLevel.FixedValue(0.5),
+            BrightnessLevel.FixedValue(0.01))
     }
 
     @Test
     fun saveBrightnessLevels() {
-        val expectedLevels = defaultLevels()
-        expectedLevels.add(0.95)
+        val expectedLevels = defaultLevels().toMutableList()
+        expectedLevels.add(BrightnessLevel.FixedValue(0.95))
         repository.saveBrightnessLevels(expectedLevels)
         val levels = repository.getBrightnessLevels()
-        Assert.assertEquals(expectedLevels, levels)
+        assertEquals(levels, expectedLevels)
     }
 }

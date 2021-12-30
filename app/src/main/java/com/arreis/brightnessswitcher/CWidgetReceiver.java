@@ -14,12 +14,14 @@ import android.widget.RemoteViews;
 
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelFileDataSource;
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
+import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel;
 
+import java.util.List;
 import java.util.Vector;
 
 public class CWidgetReceiver extends BroadcastReceiver
 {
-	private static Vector<Double> mBrightnessLevels;
+	private static List<BrightnessLevel> mBrightnessLevels;
 	private static int mCurrentLevelIndex;
 	
 	private static final String PREFERENCES_BRIGHTNESS_LEVEL_CURRENT = "PREFERENCES_BRIGHTNESS_LEVEL_CURRENT";
@@ -54,7 +56,7 @@ public class CWidgetReceiver extends BroadcastReceiver
 		editor.putInt(PREFERENCES_BRIGHTNESS_LEVEL_CURRENT, mCurrentLevelIndex);
 		editor.apply();
 		
-		double level = mBrightnessLevels.get(mCurrentLevelIndex);
+		double level = mBrightnessLevels.get(mCurrentLevelIndex).getValue();
 		setBrightnessLevel(context, level);
 		
 		boolean showTitle = prefs.getBoolean(PREFERENCES_SHOW_WIDGET_TITLE, true);
