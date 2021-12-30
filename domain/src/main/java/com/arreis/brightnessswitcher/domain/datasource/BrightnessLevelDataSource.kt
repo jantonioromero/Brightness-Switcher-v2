@@ -1,4 +1,4 @@
-package com.arreis.brightnessswitcher.datamodel
+package com.arreis.brightnessswitcher.domain.datasource
 
 import java.util.Vector
 

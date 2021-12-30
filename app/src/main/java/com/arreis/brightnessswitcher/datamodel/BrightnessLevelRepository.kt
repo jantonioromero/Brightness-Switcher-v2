@@ -1,6 +1,6 @@
 package com.arreis.brightnessswitcher.datamodel
 
-import android.content.Context
+import com.arreis.brightnessswitcher.domain.datasource.BrightnessLevelDataSource
 import java.util.Vector
 
 class BrightnessLevelRepository(

@@ -1,14 +1,13 @@
 package com.arreis.brightnessswitcher.datamodel
 
 import android.content.Context
+import com.arreis.brightnessswitcher.domain.datasource.BrightnessLevelDataSource
 import org.json.JSONArray
 import org.json.JSONException
 import java.io.BufferedReader
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStreamReader
-import java.lang.NumberFormatException
-import java.lang.StringBuilder
 import java.util.Vector
 
 class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLevelDataSource {
