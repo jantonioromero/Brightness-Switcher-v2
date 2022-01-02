@@ -3,11 +3,9 @@ package com.arreis.brightnessswitcher.datamodel
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
+import com.arreis.brightnessswitcher.data.BrightnessLevelFileDataSource
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel
 import junit.framework.Assert.assertEquals
-import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

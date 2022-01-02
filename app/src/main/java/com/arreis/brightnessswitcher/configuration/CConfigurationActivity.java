@@ -34,12 +34,11 @@ import androidx.fragment.app.FragmentActivity;
 import com.arreis.brightnessswitcher.CWidgetProvider;
 import com.arreis.brightnessswitcher.CWidgetReceiver;
 import com.arreis.brightnessswitcher.R;
-import com.arreis.brightnessswitcher.datamodel.BrightnessLevelFileDataSource;
+import com.arreis.brightnessswitcher.data.BrightnessLevelFileDataSource;
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel;
 
 import java.util.List;
-import java.util.Vector;
 
 public class CConfigurationActivity extends FragmentActivity
 {

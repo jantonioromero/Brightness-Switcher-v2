@@ -12,12 +12,11 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.arreis.brightnessswitcher.datamodel.BrightnessLevelFileDataSource;
+import com.arreis.brightnessswitcher.data.BrightnessLevelFileDataSource;
 import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel;
 
 import java.util.List;
-import java.util.Vector;
 
 public class CWidgetReceiver extends BroadcastReceiver
 {

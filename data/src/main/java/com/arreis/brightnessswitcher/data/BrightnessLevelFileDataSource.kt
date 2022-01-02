@@ -1,4 +1,4 @@
-package com.arreis.brightnessswitcher.datamodel
+package com.arreis.brightnessswitcher.data
 
 import android.content.Context
 import com.arreis.brightnessswitcher.domain.datasource.BrightnessLevelDataSource

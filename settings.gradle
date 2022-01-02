@@ -8,3 +8,4 @@ dependencyResolutionManagement {
 rootProject.name = "Brightness Switcher"
 include ':app'
 include ':domain'
+include ':data'
