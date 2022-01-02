@@ -47,6 +47,6 @@ class BrightnessLevelRepositoryTest {
         expectedLevels.add(BrightnessLevel.FixedValue(0.95))
         repository.saveBrightnessLevels(expectedLevels)
         val levels = repository.getBrightnessLevels()
-        assertEquals(levels, expectedLevels)
+        assertEquals(expectedLevels, levels)
     }
 }
