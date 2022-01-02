@@ -1,4 +1,4 @@
-package com.arreis.brightnessswitcher.datamodel
+package com.arreis.brightnessswitcher.repository
 
 import com.arreis.brightnessswitcher.domain.datasource.BrightnessLevelDataSource
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel

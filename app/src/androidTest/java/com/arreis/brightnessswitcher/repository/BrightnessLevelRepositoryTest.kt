@@ -1,4 +1,4 @@
-package com.arreis.brightnessswitcher.datamodel
+package com.arreis.brightnessswitcher.repository
 
 import android.content.Context
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.arreis.brightnessswitcher.data.BrightnessLevelFileDataSource;
-import com.arreis.brightnessswitcher.datamodel.BrightnessLevelRepository;
+import com.arreis.brightnessswitcher.repository.BrightnessLevelRepository;
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel;
 
 import java.util.List;
