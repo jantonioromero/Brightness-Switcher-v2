@@ -165,14 +165,14 @@ public class CConfigurationActivity extends FragmentActivity
 		});
 	}
 	
-	private void doDeleteSelectedLevel()
+	public void doDeleteSelectedLevel()
 	{
 		mBrightnessLevels.remove(mSelectedLevel);
 		brightnessLevelRepository.saveBrightnessLevels(mBrightnessLevels);
 		updateUI();
 	}
 	
-	private void doEditSelectedLevel(double _newLevel)
+	public void doEditSelectedLevel(double _newLevel)
 	{
 		if (mSelectedLevel == NEW_LEVEL_INDEX)
 		{
