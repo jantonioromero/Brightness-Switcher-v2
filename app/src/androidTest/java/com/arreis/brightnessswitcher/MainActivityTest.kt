@@ -36,4 +36,9 @@ class MainActivityTest {
         onView(withText(resources.getString(R.string.addLevel))).check(matches(isDisplayed()))
     }
 
+    @Test
+    fun screenShowsListOfLevels() {
+        onView(withText("Level 1")).check(matches(isDisplayed()))
+        onView(withText("Level 2")).check(matches(isDisplayed()))
+    }
 }
