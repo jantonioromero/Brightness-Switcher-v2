@@ -27,7 +27,7 @@
         <receiver android:name="CWidgetReceiver" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".configuration.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.arreis.brightnessswitcher
+package com.arreis.brightnessswitcher.configuration
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -17,15 +17,16 @@ import android.widget.BaseAdapter
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ListView
-import android.widget.RemoteViews
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
-import com.arreis.brightnessswitcher.configuration.CConfigurationActivity
-import com.arreis.brightnessswitcher.configuration.CConfigurationCell
+import com.arreis.brightnessswitcher.CWidgetProvider
+import com.arreis.brightnessswitcher.CWidgetReceiver
+import com.arreis.brightnessswitcher.MainViewModel
+import com.arreis.brightnessswitcher.R
 import com.arreis.brightnessswitcher.data.BrightnessLevelFileDataSource
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel.Auto
@@ -240,7 +241,7 @@ class MainActivity : AppCompatActivity() {
             builder.setMessage(R.string.deleteLevelConfirmationMessage)
                 .setNegativeButton(R.string.no, null).setPositiveButton(
                     R.string.yes
-                ) { dialog, which -> (activity as CConfigurationActivity?)!!.doDeleteSelectedLevel() }
+                ) { dialog, which -> (activity as MainActivity?)!!.doDeleteSelectedLevel() }
             return builder.create()
         }
     }
@@ -279,12 +280,12 @@ class MainActivity : AppCompatActivity() {
             builder.setView(view).setNegativeButton(R.string.cancel, null).setNeutralButton(
                 R.string.auto
             ) { dialog, which ->
-                (activity as CConfigurationActivity?)!!.doEditSelectedLevel(
+                (activity as MainActivity?)!!.doEditSelectedLevel(
                     BrightnessLevelRepository.BRIGHTNESS_LEVEL_AUTO
                 )
             }.setPositiveButton(
                 R.string.ok
-            ) { dialog, which -> (activity as CConfigurationActivity?)!!.doEditSelectedLevel((mLevelSeekBar!!.progress + 1).toDouble() / 100) }
+            ) { dialog, which -> (activity as MainActivity?)!!.doEditSelectedLevel((mLevelSeekBar!!.progress + 1).toDouble() / 100) }
             val res = builder.create()
             res.setCanceledOnTouchOutside(false)
             return res

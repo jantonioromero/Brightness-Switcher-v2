@@ -10,7 +10,7 @@
     android:layout_marginEnd="@dimen/activity_horizontal_margin"
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity">
+    tools:context=".configuration.MainActivity">
 
     <TextView
         android:id="@+id/config_title"
