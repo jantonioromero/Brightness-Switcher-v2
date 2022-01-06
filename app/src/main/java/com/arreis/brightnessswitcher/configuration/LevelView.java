@@ -7,12 +7,12 @@ import android.widget.TextView;
 
 import com.arreis.brightnessswitcher.R;
 
-public class CConfigurationCell extends FrameLayout
+public class LevelView extends FrameLayout
 {
 	private TextView mLeftText;
 	private TextView mRightText;
 	
-	public CConfigurationCell(Context context, AttributeSet attrs)
+	public LevelView(Context context, AttributeSet attrs)
 	{
 		super(context, attrs);
 	}
