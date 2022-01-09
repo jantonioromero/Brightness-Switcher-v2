@@ -11,7 +11,6 @@ import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.ListView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.arreis.brightnessswitcher.CWidgetProvider
 import com.arreis.brightnessswitcher.CWidgetReceiver
@@ -20,15 +19,15 @@ import com.arreis.brightnessswitcher.R
 import com.arreis.brightnessswitcher.configuration.dialogs.ConfirmDeleteLevelDialog
 import com.arreis.brightnessswitcher.configuration.dialogs.EditLevelDialog
 import com.arreis.brightnessswitcher.configuration.dialogs.MessageDialog
-import com.arreis.brightnessswitcher.data.BrightnessLevelFileDataSource
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel.Auto
 import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel.FixedValue
 import com.arreis.brightnessswitcher.repository.BrightnessLevelRepository
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModel()
 
     private var mListView: ListView? = null
     private var mShowTitleCheck: CheckBox? = null
@@ -46,8 +45,6 @@ class MainActivity : AppCompatActivity() {
     private val DIALOG_TAG_EDIT = "DIALOG_TAG_EDIT"
     private val DIALOG_TAG_MESSAGE = "DIALOG_TAG_MESSAGE"
 
-    private var brightnessLevelRepository: BrightnessLevelRepository? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val extras = intent.extras
@@ -64,14 +61,8 @@ class MainActivity : AppCompatActivity() {
             requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
         setContentView(R.layout.activity_main)
-        if (brightnessLevelRepository == null) {
-            brightnessLevelRepository = BrightnessLevelRepository(
-                BrightnessLevelFileDataSource(
-                    applicationContext
-                )
-            )
-        }
-        mBrightnessLevels = brightnessLevelRepository!!.getBrightnessLevels().toMutableList()
+
+        mBrightnessLevels = viewModel.brightnessLevelRepository.getBrightnessLevels().toMutableList()
         mListView = findViewById<View>(R.id.config_list) as ListView
         mListView!!.adapter = LevelListAdapter(this, mBrightnessLevels)
         mListView!!.onItemClickListener =
@@ -129,7 +120,7 @@ class MainActivity : AppCompatActivity() {
 
     fun doDeleteSelectedLevel() {
         mBrightnessLevels?.removeAt(mSelectedLevel)
-        brightnessLevelRepository!!.saveBrightnessLevels(mBrightnessLevels!!)
+        viewModel.brightnessLevelRepository.saveBrightnessLevels(mBrightnessLevels!!)
         updateUI()
     }
 
@@ -139,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         } else {
             mBrightnessLevels?.set(mSelectedLevel, createBrightnessLevel(_newLevel))
         }
-        brightnessLevelRepository!!.saveBrightnessLevels(mBrightnessLevels!!)
+        viewModel.brightnessLevelRepository.saveBrightnessLevels(mBrightnessLevels!!)
         updateUI()
     }
 
@@ -164,4 +155,5 @@ class MainActivity : AppCompatActivity() {
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
         sendBroadcast(intent)
     }
+
 }
