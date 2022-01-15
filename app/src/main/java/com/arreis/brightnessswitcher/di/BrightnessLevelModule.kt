@@ -2,15 +2,24 @@ package com.arreis.brightnessswitcher.di
 
 import com.arreis.brightnessswitcher.MainViewModel
 import com.arreis.brightnessswitcher.data.BrightnessLevelFileDataSource
+import com.arreis.brightnessswitcher.data.BrightnessLevelInMemoryDataSource
 import com.arreis.brightnessswitcher.domain.datasource.BrightnessLevelDataSource
+import com.arreis.brightnessswitcher.domain.entity.BrightnessLevel
 import com.arreis.brightnessswitcher.repository.BrightnessLevelRepository
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 val brightnessLevelModule = module {
 
-    single<MainViewModel> { MainViewModel(get()) }
+    fun defaultBrightnessLevels() = listOf(
+        BrightnessLevel.FixedValue(50.0 / 100),
+        BrightnessLevel.FixedValue(1.0 / 100)
+    )
 
-    single<BrightnessLevelRepository> { BrightnessLevelRepository(get()) }
+    factory<MainViewModel> { MainViewModel(get()) }
 
-    single<BrightnessLevelDataSource> { BrightnessLevelFileDataSource(get()) }
+    factory<BrightnessLevelRepository> { BrightnessLevelRepository(get()) }
+
+//    factory<BrightnessLevelDataSource> { BrightnessLevelFileDataSource(androidContext()) }
+    factory<BrightnessLevelDataSource> { BrightnessLevelInMemoryDataSource(defaultBrightnessLevels()) }
 }
