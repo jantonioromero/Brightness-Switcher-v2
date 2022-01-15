@@ -7,15 +7,16 @@ import org.json.JSONException
 import java.io.FileNotFoundException
 import java.io.IOException
 
-class BrightnessLevelFileDataSource(private val context: Context) : BrightnessLevelDataSource {
+class BrightnessLevelFileDataSource(
+    private val context: Context
+    ) : BrightnessLevelDataSource {
 
     override fun resetBrightnessLevels() {
         context.deleteFile(BRIGHTNESS_LEVELS_FILENAME)
     }
 
     override fun brightnessLevels(): List<BrightnessLevel>? {
-        try {
-            context.openFileInput(BRIGHTNESS_LEVELS_FILENAME).bufferedReader().use {
+        try { context.openFileInput(BRIGHTNESS_LEVELS_FILENAME).bufferedReader().use {
                 return it.readLines().map { it.toDouble() }.map {
                     when (it) {
                         -1.0 -> BrightnessLevel.Auto()
